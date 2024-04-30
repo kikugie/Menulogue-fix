@@ -26,10 +26,12 @@ public class CatalogueConfigFactory
             {
                 ModMenuApi entry = container.getEntrypoint();
                 ConfigScreenFactory<?> factory = entry.getModConfigScreenFactory();
+                if (factory == null) return;
                 providers.put(modId, (previousScreen, modContainer) -> {
                     return factory.create(previousScreen);
                 });
                 entry.getProvidedConfigScreenFactories().forEach((s, f) -> {
+                    if (f == null) return;
                     providers.putIfAbsent(s, (previousScreen, modContainer) -> {
                         return f.create(previousScreen);
                     });
